@@ -3,6 +3,7 @@
 /// a sender, recipient, and an amount indicating how much the 
 /// transaction was for
 
+#[derive(Debug)]
 pub struct Transaction {
     sender: String,
     recipient: String,

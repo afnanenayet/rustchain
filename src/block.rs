@@ -10,6 +10,7 @@
 /// - proof
 /// - a hash of the previous block
 
+#[derive(Debug)]
 pub struct Block {
     index: u64, // index in the blockchain
     proof: u64,
