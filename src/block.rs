@@ -18,17 +18,21 @@ use std::hash::{Hash, Hasher};
 #[derive(Debug)]
 #[derive(Hash)]
 pub struct Block {
-    index: usize, // index in the blockchain
+    index: u64, // index in the blockchain
     proof: u64,
     prev_hash: String, // hash of the previous block
-    timestamp: Duration,
+    timestamp: Duration, // time at which block was created
 }
 
 impl Block {
+    /// Creates a new block with a reference to the whole blockchain, given proof, 
+    /// optionally the hash of the previous blockhain, and proof. It will create 
+    /// a new block with a timestamp and index with the information given
     fn new(bchain: &Blockchain, proof: u64, prev_hash: String) -> Block {
         let sys_time = SystemTime::now();
         let u_time = sys_time.duration_since(UNIX_EPOCH).expect("Negatively elapsed time");
 
+        // the newly constructed node
         Block {
             index: bchain.get_chain_len() + 1,
             prev_hash: prev_hash,
