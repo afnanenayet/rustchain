@@ -1,6 +1,6 @@
 /// # transaction
-/// A struct that represents a transaction. It has fields for 
-/// a sender, recipient, and an amount indicating how much the 
+/// A struct that represents a transaction. It has fields for
+/// a sender, recipient, and an amount indicating how much the
 /// transaction was for
 
 use std::hash::{Hash, Hasher};
@@ -19,7 +19,7 @@ impl Hash for Transaction {
         self.sender.hash(state);
         self.recipient.hash(state);
 
-        // convert float to string since floating point literals can't be 
+        // convert float to string since floating point literals can't be
         // hashed themselves (because NaN != NaN)
         let amount_str = self.amount.to_string();
         amount_str.hash(state);

@@ -27,12 +27,14 @@ pub struct Block {
 }
 
 impl Block {
-    /// Creates a new block with a reference to the whole blockchain, given proof, 
-    /// optionally the hash of the previous blockhain, and proof. It will create 
+    /// Creates a new block with a reference to the whole blockchain, given proof,
+    /// optionally the hash of the previous blockhain, and proof. It will create
     /// a new block with a timestamp and index with the information given
     pub fn new(index: u64, proof: u64, prev_hash: String, transactions: Vec<Transaction>) -> Block {
         let sys_time = SystemTime::now();
-        let u_time = sys_time.duration_since(UNIX_EPOCH).expect("Negatively elapsed time");
+        let u_time = sys_time.duration_since(UNIX_EPOCH).expect(
+            "Negatively elapsed time",
+        );
 
         // the newly constructed node
         Block {
@@ -52,4 +54,3 @@ fn hash(block: &Block) -> u64 {
     block.hash(&mut hasher);
     hasher.finish()
 }
-
