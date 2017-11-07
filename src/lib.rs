@@ -1,6 +1,6 @@
 /// Afnan Enayet 2017
 ///
-/// `rustchain` - a blockchain writte in Rust
+/// `rustchain` - a blockchain written in Rust
 
 pub mod block;
 pub mod blockchain;
