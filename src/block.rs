@@ -10,34 +10,37 @@
 /// - proof
 /// - a hash of the previous block
 
-use blockchain::Blockchain;
+use transaction::Transaction;
 use std::time::{SystemTime, UNIX_EPOCH, Duration};
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 
 #[derive(Debug)]
 #[derive(Hash)]
+#[derive(Clone)]
 pub struct Block {
     index: u64, // index in the blockchain
     proof: u64,
-    prev_hash: String, // hash of the previous block
+    pub prev_hash: String, // hash of the previous block
     timestamp: Duration, // time at which block was created
+    transactions: Vec<Transaction>,
 }
 
 impl Block {
     /// Creates a new block with a reference to the whole blockchain, given proof, 
     /// optionally the hash of the previous blockhain, and proof. It will create 
     /// a new block with a timestamp and index with the information given
-    fn new(bchain: &Blockchain, proof: u64, prev_hash: String) -> Block {
+    pub fn new(index: u64, proof: u64, prev_hash: String, transactions: Vec<Transaction>) -> Block {
         let sys_time = SystemTime::now();
         let u_time = sys_time.duration_since(UNIX_EPOCH).expect("Negatively elapsed time");
 
         // the newly constructed node
         Block {
-            index: bchain.get_chain_len() + 1,
+            index: index,
             prev_hash: prev_hash,
             proof: proof,
             timestamp: u_time,
+            transactions: transactions,
         }
     }
 }
@@ -49,5 +52,4 @@ fn hash(block: &Block) -> u64 {
     block.hash(&mut hasher);
     hasher.finish()
 }
-
 
