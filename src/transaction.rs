@@ -6,6 +6,7 @@
 use std::hash::{Hash, Hasher};
 
 #[derive(Debug)]
+#[derive(Clone)]
 pub struct Transaction {
     sender: String,
     recipient: String,
