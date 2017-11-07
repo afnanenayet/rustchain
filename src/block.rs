@@ -10,7 +10,7 @@
 /// - proof
 /// - a hash of the previous block
 
-struct Block {
+pub struct Block {
     index: u64, // index in the blockchain
     proof: u64,
     prev_hash: String, // hash of the previous block
