@@ -15,12 +15,13 @@ pub struct Blockchain {
 }
 
 impl Blockchain {
-    /// Returns the length of the blockchain
+    /// Returns the number of nodes in the blockchain
     pub fn get_chain_len(&self) -> u64 {
         self.chain.len() as u64
     }
 
-    /// Adds a block to the blockchain
+    /// Pushes a block onto to the blockchain, resets transactions in main 
+    /// blockchain
     pub fn new_block(&mut self, proof: u64, previous_hash: Option<String>) {
         // Find previous hash if it wasn't provided (get it from the last element in the
         // array)
