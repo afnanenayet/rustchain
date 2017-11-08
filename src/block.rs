@@ -34,7 +34,7 @@ impl Block {
         let sys_time = SystemTime::now();
         let u_time = sys_time.duration_since(UNIX_EPOCH).expect(
             "Negatively elapsed time",
-        );
+            );
 
         // the newly constructed node
         Block {
@@ -53,4 +53,30 @@ fn hash(block: &Block) -> u64 {
     let mut hasher = DefaultHasher::new();
     block.hash(&mut hasher);
     hasher.finish()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Test if a block can be initialized
+    #[test]
+    fn test_init_block() {
+        let block = Block::new(0, 0, String::from(""), Vec::new());
+        println!("{:?}", block);
+    }
+
+    // Tests if hash property works properly. No two blocks should have the
+    // same hash because of the timestamp
+    #[test]
+    fn test_hash_block() {
+        let block_1 = Block::new(0, 0, String::from(""), Vec::new());
+        let block_2 = Block::new(0, 0, String::from(""), Vec::new());
+
+        let mut hasher_1 = DefaultHasher::new();
+        let mut hasher_2 = DefaultHasher::new();
+        block_1.hash(&mut hasher_1);
+        block_2.hash(&mut hasher_2);
+        assert!(!(block_1.hash() == block_2.hash()));
+    }
 }
