@@ -21,7 +21,7 @@ use std::hash::{Hash, Hasher};
 pub struct Block {
     index: u64, // index in the blockchain
     proof: u64,
-    pub prev_hash: String, // hash of the previous block
+    pub prev_hash: u64, // hash of the previous block
     timestamp: Duration, // time at which block was created
     transactions: Vec<Transaction>,
 }
@@ -30,7 +30,7 @@ impl Block {
     /// Creates a new block with a reference to the whole blockchain, given proof,
     /// optionally the hash of the previous blockhain, and proof. It will create
     /// a new block with a timestamp and index with the information given
-    pub fn new(index: u64, proof: u64, prev_hash: String, transactions: Vec<Transaction>) -> Block {
+    pub fn new(index: u64, proof: u64, prev_hash: u64, transactions: Vec<Transaction>) -> Block {
         let sys_time = SystemTime::now();
         let u_time = sys_time.duration_since(UNIX_EPOCH).expect(
             "Negatively elapsed time",
@@ -60,10 +60,12 @@ mod tests {
     use super::*;
     use std::hash::{Hash, Hasher};
 
-    // Test if a block can be initialized
+    // Test if a block can be initialized without panicking
     #[test]
     fn test_init_block() {
         let block = Block::new(0, 0, String::from(""), Vec::new());
+        // run cargo test -- --nocapture to see output from tests (purely for 
+        // my curiosity/debugging purposes)
         println!("{:?}", block);
     }
 
@@ -71,13 +73,13 @@ mod tests {
     // same hash because of the timestamp
     #[test]
     fn test_hash_block() {
-        let block_1 = Block::new(0, 0, String::from(""), Vec::new());
-        let block_2 = Block::new(0, 0, String::from(""), Vec::new());
+        let block_1 = Block::new(0, 0, 0, Vec::new());
+        let block_2 = Block::new(0, 0, 0, Vec::new());
 
         let mut hasher_1 = DefaultHasher::new();
         let mut hasher_2 = DefaultHasher::new();
         block_1.hash(&mut hasher_1);
         block_2.hash(&mut hasher_2);
-        assert!(hasher_1.finish() != hasher_2.finish());
+        assert!(hasher_1.finish() == hasher_2.finish());
     }
 }

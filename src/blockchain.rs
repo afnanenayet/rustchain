@@ -22,14 +22,14 @@ impl Blockchain {
 
     /// Pushes a block onto to the blockchain, resets transactions in main 
     /// blockchain
-    pub fn new_block(&mut self, proof: u64, previous_hash: Option<String>) {
+    pub fn new_block(&mut self, proof: u64, previous_hash: Option<u64>) {
         // Find previous hash if it wasn't provided (get it from the last element in the
         // array)
         let previous_hash = match previous_hash {
-            Some(s) => s,
+            Some(i) => i,
             None => {
                 let ref last_block = self.chain[self.chain.len() - 1];
-                last_block.prev_hash.clone()
+                last_block.prev_hash
             }
         };
 
