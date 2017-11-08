@@ -21,7 +21,7 @@ use std::hash::{Hash, Hasher};
 pub struct Block {
     index: u64, // index in the blockchain
     proof: u64,
-    pub prev_hash: u64, // hash of the previous block
+    prev_hash: u64, // hash of the previous block
     timestamp: Duration, // time at which block was created
     transactions: Vec<Transaction>,
 }
@@ -32,8 +32,8 @@ impl Block {
     /// a new block with a timestamp and index with the information given
     pub fn new(index: u64, proof: u64, prev_hash: u64, transactions: Vec<Transaction>) -> Block {
         let sys_time = SystemTime::now();
-        let u_time = sys_time.duration_since(UNIX_EPOCH).expect(
-            "Negatively elapsed time",
+        let unix_time = sys_time.duration_since(UNIX_EPOCH).expect(
+            "negatively elapsed time",
         );
 
         // the newly constructed node
@@ -41,9 +41,19 @@ impl Block {
             index: index,
             prev_hash: prev_hash,
             proof: proof,
-            timestamp: u_time,
+            timestamp: unix_time,
             transactions: transactions,
         }
+    }
+
+    /// Returns the index of the block in the blockchain
+    pub fn get_index(&self) -> u64 {
+        self.index
+    }
+
+    /// Returns the hash of the previous block in the blockchain
+    pub fn get_prev_hash(&self) -> u64 {
+        self.prev_hash
     }
 }
 
