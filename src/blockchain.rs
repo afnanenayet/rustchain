@@ -6,6 +6,8 @@
 
 use block::Block;
 use transaction::Transaction;
+use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
 
 /// A simple blockchain that contains a vector of transactions and a vector of Blocks/nodes.
 /// Also contains related functions that manage the blockchain and its blocks.
@@ -85,4 +87,36 @@ impl Blockchain {
         // Reset the transactions
         self.transactions = Vec::new();
     }
+
+    /// A proof of work algorithm
+    ///
+    /// Define a number `p` such that `p` = proof and `p'` such that `p'` is
+    /// the proof of work in the previous block. The function finds a number
+    /// `p'` such that hashing "pp`" contains 4 leading zeroes.
+    pub fn proof_of_work(&self, last_proof: u64) -> u64 {
+        let mut proof = 0;
+
+        while !valid_proof(last_proof, proof) {
+            proof += 1;
+        }
+        return proof;
+    }
 }
+
+/// Validates a potential proof, returning whether hashing `"pp'"` contains
+/// 4 leading zeroes
+pub fn valid_proof(proof_prime: u64, proof: u64) -> bool {
+    // Concatenate proofs into one string
+    let guess_str = format!("{}{}", proof_prime, proof);
+
+    // Hash the string
+    let mut hasher = DefaultHasher::new();
+    guess_str.hash(&mut hasher);
+
+    // Convert hash back into string
+    let candidate_hash = hasher.finish().to_string();
+
+    // Return whether last 4 characters of the string are zeroes
+    &candidate_hash[candidate_hash.len()-5..] == "0000"
+}
+
