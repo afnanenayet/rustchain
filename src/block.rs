@@ -34,7 +34,7 @@ impl Block {
         let sys_time = SystemTime::now();
         let u_time = sys_time.duration_since(UNIX_EPOCH).expect(
             "Negatively elapsed time",
-            );
+        );
 
         // the newly constructed node
         Block {
@@ -64,7 +64,7 @@ mod tests {
     #[test]
     fn test_init_block() {
         let block = Block::new(0, 0, String::from(""), Vec::new());
-        // run cargo test -- --nocapture to see output from tests (purely for 
+        // run cargo test -- --nocapture to see output from tests (purely for
         // my curiosity/debugging purposes)
         println!("{:?}", block);
     }

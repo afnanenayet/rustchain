@@ -20,7 +20,7 @@ impl Blockchain {
         self.chain.len() as u64
     }
 
-    /// Pushes a block onto to the blockchain, resets transactions in main 
+    /// Pushes a block onto to the blockchain, resets transactions in main
     /// blockchain
     pub fn new_block(&mut self, proof: u64, previous_hash: Option<u64>) {
         // Find previous hash if it wasn't provided (get it from the last element in the
