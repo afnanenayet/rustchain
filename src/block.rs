@@ -58,6 +58,7 @@ fn hash(block: &Block) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::hash::{Hash, Hasher};
 
     // Test if a block can be initialized
     #[test]
@@ -77,6 +78,6 @@ mod tests {
         let mut hasher_2 = DefaultHasher::new();
         block_1.hash(&mut hasher_1);
         block_2.hash(&mut hasher_2);
-        assert!(!(block_1.hash() == block_2.hash()));
+        assert!(hasher_1.finish() != hasher_2.finish());
     }
 }
