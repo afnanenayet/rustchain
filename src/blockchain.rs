@@ -76,7 +76,7 @@ impl Blockchain {
 
         // Create the new block
         let block = Block::new(
-            self.chain.len() as u64 + 1,
+            self.chain.len() as u64,
             proof,
             previous_hash,
             self.transactions.clone(),
