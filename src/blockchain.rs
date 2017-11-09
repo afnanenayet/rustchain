@@ -8,6 +8,7 @@ use block::Block;
 use transaction::Transaction;
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
+use serde_json::to_string;
 
 /// A simple blockchain that contains a vector of transactions and a vector of Blocks/nodes.
 /// Also contains related functions that manage the blockchain and its blocks.
@@ -98,6 +99,10 @@ impl Blockchain {
         self.chain.clone()
     }
 
+    /// Returns a JSON representation of the blockchain
+    pub fn get_json(&self) -> String {
+        to_string(&self).unwrap()
+    }
 }
 
 /// Validates a potential proof, returning whether hashing `"pp'"` contains
