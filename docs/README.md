@@ -15,5 +15,12 @@ To run:
 
 ## Dependencies
 
-Dependencies will be listed here.
+- serde
 
+## Endpoint
+
+There are three ways to interact with the binary via HTTP requests:
+
+- `/transactions/new` creates a new transaction 
+- `/mine` has the server mine a new block
+- `/chain` returns the entire Blockchain
