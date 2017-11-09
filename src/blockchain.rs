@@ -36,7 +36,7 @@ impl Blockchain {
 
     /// Returns the most recent block that was added to the chain, if there
     /// is at least one block in the chain.
-    fn get_last_block(&self) -> Option<Block> {
+    pub fn get_last_block(&self) -> Option<Block> {
         if self.chain.len() > 1 {
             Some(self.chain[self.chain.len() - 1].clone())
         } else {
@@ -86,20 +86,7 @@ impl Blockchain {
         self.transactions = Vec::new();
     }
 
-    /// A proof of work algorithm
-    ///
-    /// Define a number `p` such that `p` = proof and `p'` such that `p'` is
-    /// the proof of work in the previous block. The function finds a number
-    /// `p'` such that hashing "pp`" contains 4 leading zeroes.
-    pub fn proof_of_work(&self, last_proof: u64) -> u64 {
-        let mut proof = 0;
-
-        while !valid_proof(last_proof, proof) {
-            proof += 1;
-        }
-        return proof;
     }
-}
 
 /// Validates a potential proof, returning whether hashing `"pp'"` contains
 /// 4 leading zeroes
@@ -118,3 +105,16 @@ pub fn valid_proof(proof_prime: u64, proof: u64) -> bool {
     &candidate_hash[candidate_hash.len()-5..] == "0000"
 }
 
+/// A proof of work algorithm
+///
+/// Define a number `p` such that `p` = proof and `p'` such that `p'` is
+/// the proof of work in the previous block. The function finds a number
+/// `p'` such that hashing "pp`" contains 4 leading zeroes.
+pub fn proof_of_work(last_proof: u64) -> u64 {
+    let mut proof = 0;
+
+    while !valid_proof(last_proof, proof) {
+        proof += 1;
+    }
+    return proof;
+}
