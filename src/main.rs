@@ -31,17 +31,21 @@ lazy_static! {
 }
 
 /// Mines a block from the blockchain
-fn mine_endpoint(_: &mut Request) -> PencilResult {
+fn mine_endpoint(req: &mut Request) -> PencilResult {
     // Get proof from last block and calculate new proof
-    println!("mining block");
+    println!("Mining block");
     let last_block = BLOCKCHAIN.lock().unwrap().get_last_block();
     let last_proof = last_block.unwrap().get_proof();
     let proof = proof_of_work(last_proof);
 
+    // Use IP address as sender
+    let remote_addr = req.remote_addr();
+    let recip_str = format!("{}", remote_addr);
+
     // Reward for new proof
     let reward = Transaction {
-        sender: String::from("0"),
-        recipient: String::from("you"),
+        sender: String::from("blockchain"),
+        recipient: String::from(recip_str),
         amount: 1.0f64,
     };
 
@@ -56,11 +60,14 @@ fn mine_endpoint(_: &mut Request) -> PencilResult {
     resp.insert("index", transact_index.to_string());
     resp.insert("transaction", transact_json.unwrap());
 
+    println!("Block successfully mined");
     Ok(Response::from(serde_json::to_string(&resp).unwrap()))
 }
 
 /// Returns the entire chain as a JSON object
 fn return_full_chain(_: &mut Request) -> PencilResult {
+    println!("Full blockchain requested");
+
     // Return all blocks in JSON format
     let json_str = BLOCKCHAIN.lock().unwrap().get_json();
     Ok(Response::from(json_str))
@@ -92,7 +99,7 @@ fn main() {
 
     // Set port and IP here
     let ip = "127.0.0.1";
-    let port = "5000";
+    let port = "8080";
     let addr = format!("{}:{}", ip, port);
     println!("Your app will run at {}", &addr);
 
