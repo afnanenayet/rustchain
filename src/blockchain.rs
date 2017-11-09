@@ -37,7 +37,7 @@ impl Blockchain {
     /// Returns the most recent block that was added to the chain, if there
     /// is at least one block in the chain.
     pub fn get_last_block(&self) -> Option<Block> {
-        if self.chain.len() > 1 {
+        if self.chain.len() > 0 {
             Some(self.chain[self.chain.len() - 1].clone())
         } else {
             None
@@ -67,7 +67,9 @@ impl Blockchain {
             Some(i) => i,
             None => {
                 let ref last_block = self.get_last_block().unwrap();
-                last_block.get_prev_hash()
+                let mut s = DefaultHasher::new();
+                last_block.hash(&mut s);
+                s.finish()
             }
         };
 
@@ -86,7 +88,17 @@ impl Blockchain {
         self.transactions = Vec::new();
     }
 
+    /// Returns a copy of all of the transactions in the blockchain
+    pub fn get_transactions(&self) -> Vec<Transaction> {
+        self.transactions.clone()
     }
+
+    /// Returns a copy of all of the blocks in the blockchain
+    pub fn get_blocks(&self) -> Vec<Block> {
+        self.chain.clone()
+    }
+
+}
 
 /// Validates a potential proof, returning whether hashing `"pp'"` contains
 /// 4 leading zeroes
@@ -101,8 +113,8 @@ pub fn valid_proof(proof_prime: u64, proof: u64) -> bool {
     // Convert hash back into string
     let candidate_hash = hasher.finish().to_string();
 
-    // Return whether last 4 characters of the string are zeroes
-    &candidate_hash[candidate_hash.len()-5..] == "0000"
+    // Return whether last 3 characters of the string are "100"
+    &candidate_hash[..3] == "100"
 }
 
 /// A proof of work algorithm

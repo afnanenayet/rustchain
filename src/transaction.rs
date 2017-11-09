@@ -7,9 +7,9 @@ use std::hash::{Hash, Hasher};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
-    sender: String,
-    recipient: String,
-    amount: f64,
+    pub sender: String,
+    pub recipient: String,
+    pub amount: f64,
 }
 
 // Manually implement because float can't be hashed

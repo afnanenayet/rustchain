@@ -53,6 +53,10 @@ impl Block {
     pub fn get_prev_hash(&self) -> u64 {
         self.prev_hash
     }
+
+    pub fn get_proof(&self) -> u64 {
+        self.proof
+    }
 }
 
 /// Hashes a block, not placed in struct because blocks can't hash themselves
