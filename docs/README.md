@@ -13,14 +13,42 @@ To run:
 
     cargo run
 
-## Dependencies
-
-- serde
-
 ## Endpoint
 
 There are three ways to interact with the binary via HTTP requests:
 
-- `/transactions/new` creates a new transaction 
+- `/transactions/new` creates a new transaction
 - `/mine` has the server mine a new block
 - `/chain` returns the entire Blockchain
+
+## Usage
+
+This webapp runs as a REST endpoint. Here are the three methods available:
+
+### `/transactions/new`
+
+Accepts a JSON dictionary in the format `"transaction" : {JSON serialized
+Transaction struct}`
+
+If you want to do this manually, this is what the JSON request should look like:
+
+    { "transaction":
+        {
+            "sender":"a string",
+            "recipient":"a string",
+            "amount":<a float>
+        }
+    }
+
+### `/chain`
+
+This will return the entire blockchain serialized in JSON with `serde-json`
+
+### `/mine`
+
+This will mine a new block and return the following information:
+
+- the transaction awarded (`serde-json` serialized `Transaction` struct)
+- the index of the Block/node in the blockchain
+- the proof for the block you mined
+
