@@ -11,9 +11,7 @@ use std::hash::{Hash, Hasher};
 
 /// A simple blockchain that contains a vector of transactions and a vector of Blocks/nodes.
 /// Also contains related functions that manage the blockchain and its blocks.
-#[derive(Debug)]
-#[derive(Clone)]
-#[derive(Default)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Blockchain {
     chain: Vec<Block>,
     transactions: Vec<Transaction>,

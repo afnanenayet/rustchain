@@ -5,8 +5,7 @@
 
 use std::hash::{Hash, Hasher};
 
-#[derive(Debug)]
-#[derive(Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
     sender: String,
     recipient: String,

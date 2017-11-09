@@ -15,9 +15,7 @@ use std::time::{SystemTime, UNIX_EPOCH, Duration};
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 
-#[derive(Debug)]
-#[derive(Hash)]
-#[derive(Clone)]
+#[derive(Debug, Hash, Clone, Serialize, Deserialize)]
 pub struct Block {
     index: u64, // index in the blockchain
     proof: u64,
