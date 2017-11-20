@@ -108,7 +108,7 @@ impl Blockchain {
     /// backwards through the chain (verifying from the most recent block, then
     /// moving backwards), and return a boolean value indicating whether the
     /// chain is valid
-    pub fn verify_chain(&self) -> bool {
+    pub fn verify(&self) -> bool {
         // Start at the last element, then iterate backwards, verifying that
         // the hashes match up
         for i in (self.chain.len() - 1..1).rev() {
