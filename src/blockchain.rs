@@ -103,6 +103,28 @@ impl Blockchain {
     pub fn get_json(&self) -> String {
         to_string(&self).unwrap()
     }
+
+    /// Verifies the entire blockchain. Will run
+    /// backwards through the chain (verifying from the most recent block, then
+    /// moving backwards), and return a boolean value indicating whether the
+    /// chain is valid
+    pub fn verify_chain(&self) -> bool {
+        // Start at the last element, then iterate backwards, verifying that
+        // the hashes match up
+        for i in (self.chain.len() - 1..1).rev() {
+            let curr_block = &self.chain[i];
+            let prev_block = &self.chain[i-1];
+
+            let mut hasher = DefaultHasher::new();
+            prev_block.hash(&mut hasher);
+            let hash = hasher.finish();
+
+            if curr_block.get_prev_hash() != hash {
+                return false
+            }
+        }
+        true
+    }
 }
 
 /// Validates a potential proof, returning whether hashing `"pp'"` contains
@@ -135,3 +157,5 @@ pub fn proof_of_work(last_proof: u64) -> u64 {
     }
     return proof;
 }
+
+
