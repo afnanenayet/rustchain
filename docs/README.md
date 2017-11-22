@@ -13,6 +13,22 @@ To run:
 
     cargo run
 
+the `pencil` dependency requires `rust-openssl`, which requires `openssl` 
+headers. 
+
+Ubuntu:
+
+    sudo apt-get install libssl-dev
+
+Mac:
+
+    brew install openssl
+    export DEP_OPENSSL_INCLUDE=/usr/local/opt/openssl/include
+    export OPENSSL_INCLUDE_DIR=/usr/local/opt/openssl/include
+
+Brew doesn't symlink the paths so you have to export the OpenSSL headers that 
+you installed with homebrew.
+
 ## Endpoint
 
 There are three ways to interact with the binary via HTTP requests:
