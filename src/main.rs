@@ -4,7 +4,7 @@
 /// - `/transaction/new`: [PUT] creates a new transaction
 /// - `/mine`: has the server mine a new block
 
-extern crate pencil;
+extern crate sharp_pencil as pencil;
 extern crate rustchain;
 extern crate serde_json;
 
